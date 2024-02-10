@@ -6,10 +6,10 @@
 
 #include "Main.h"
 
-HANDLE gGameWindow;
+HWND gGameWindow;
 BOOL gGameIsRunning;
 
-int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
+int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
     UNREFERENCED_PARAMETER(PreviousInstance);
     UNREFERENCED_PARAMETER(CommandLine);
@@ -100,7 +100,7 @@ DWORD CreateMainGameWindow(void) {
         WindowClass.lpszClassName,
         "Window Title",
         WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-        CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
+        CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
         NULL, NULL, WindowClass.hInstance, NULL);
 
     if (gGameWindow == NULL)
