@@ -13,6 +13,11 @@ int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, in
     UNREFERENCED_PARAMETER(CommandLine);
     UNREFERENCED_PARAMETER(CmdShow);
 
+    if (GameIsAlreadyRunning() == TRUE) {
+        MessageBoxA(NULL, "Another Instance of this Program is Already Running!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+        goto Exit;
+    }
+
     if (CreateMainGameWindow() != ERROR_SUCCESS) {
         goto Exit;
     }
@@ -72,7 +77,7 @@ DWORD CreateMainGameWindow(void) {
     if (!RegisterClassExA(&WindowClass))
     {
         Result = GetLastError();
-        MessageBox(NULL, "Window Registration Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+        MessageBoxA(NULL, "Window Registration Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
         goto Exit;
     }
 
@@ -87,11 +92,24 @@ DWORD CreateMainGameWindow(void) {
     if (WindowHandle == NULL)
     {
         Result = GetLastError();
-        MessageBox(NULL, "Window Creation Failed!", "Error!",
+        MessageBoxA(NULL, "Window Creation Failed!", "Error!",
             MB_ICONEXCLAMATION | MB_OK);
         goto Exit;
     }
 
 Exit:
     return 0;
+}
+
+
+// 24. Create global mutex to stop the user from opening more than one game at a time.
+BOOL GameIsAlreadyRunning(void) {
+    HANDLE Mutex = NULL;
+    Mutex = CreateMutexA(NULL, FALSE, GAME_NAME "_GameMutex");
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        return (TRUE);
+    }
+    else {
+        return(FALSE);
+    }
 }
