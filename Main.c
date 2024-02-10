@@ -9,8 +9,11 @@
 HWND gGameWindow;
 BOOL gGameIsRunning;
 
+GAMEBITMAP gDrawingSurface;
+
 int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
+
     UNREFERENCED_PARAMETER(PreviousInstance);
     UNREFERENCED_PARAMETER(CommandLine);
     UNREFERENCED_PARAMETER(CmdShow);
@@ -24,6 +27,21 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         goto Exit;
     }
 
+    gDrawingSurface.BitmapInfo.bmiHeader.biSize = sizeof(gDrawingSurface.BitmapInfo.bmiHeader);
+    gDrawingSurface.BitmapInfo.bmiHeader.biWidth = GAME_RES_WIDTH;      // 384, 16:9 ratio and also divisible by 8, for many modern screens
+    gDrawingSurface.BitmapInfo.bmiHeader.biHeight = GAME_RES_HEIGHT;    // 216
+    gDrawingSurface.BitmapInfo.bmiHeader.biBitCount = GAME_BPP;         // 32, 32 is chosen because it's way easier to work with and more performant than 24
+    gDrawingSurface.BitmapInfo.bmiHeader.biCompression = BI_RGB;         
+    gDrawingSurface.BitmapInfo.bmiHeader.biPlanes = 1;    
+    
+    gDrawingSurface.Memory = VirtualAlloc(NULL, GAME_DRAWING_AREA_MEMORY_SIZE, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+    if (gDrawingSurface.Memory == NULL) {
+        MessageBoxA(NULL, "Failed to Allocate Memory for Drawing Surface!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+        goto Exit;
+    } 
+
+
+
     MSG Message = { 0 };
    
     // MAIN GAME LOOP - for games that need infinite loop use gGameIsRunning
@@ -36,7 +54,7 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         }
 
         ProcessPlayerInput();
-        // RenderFrameGraphics();
+        RenderFrameGraphics();
 
         Sleep(1); // TODO: temp solution to high cpu usage, but will be changed later
     }
@@ -134,4 +152,8 @@ void ProcessPlayerInput(void) {
     if (EscapeKeyIsDown) {
         SendMessageA(gGameWindow, WM_CLOSE, 0, 0);
     }
+}
+
+void RenderFrameGraphics() {
+    
 }
