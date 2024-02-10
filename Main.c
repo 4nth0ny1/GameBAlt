@@ -7,10 +7,12 @@
 
 // 6. Declare MainWindowProc function to fix undeclared identifier error 
 // 9. Renamed paramters
-LRESULT CALLBACK MainWindowProc(HWND WindowHandle, UINT Message, WPARAM WParam, LPARAM LParam);
+// 19. Added SAL - Source annotation lang
+LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ WPARAM WParam, _In_ LPARAM LParam);
 
 // 12. CreateMainGameWindow()
-DWORD CreateMainGameWindow(HANDLE Instance);
+// 19. Added SAL - Source annotation lang
+DWORD CreateMainGameWindow(_In_ HANDLE Instance);
 
 // 1. Main 
 int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
@@ -39,7 +41,8 @@ Exit:
 
 // 2. Window
 // 10. cleaned up this function, renamed parameters, created result, made everything default response
-LRESULT CALLBACK MainWindowProc(HWND WindowHandle, UINT Message, WPARAM WParam, LPARAM LParam)
+// 19. Added SAL - Source annotation lang
+LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ WPARAM WParam, _In_ LPARAM LParam)
 {
     LRESULT Result = 0;
 
@@ -53,7 +56,8 @@ LRESULT CALLBACK MainWindowProc(HWND WindowHandle, UINT Message, WPARAM WParam, 
 }
 
 // 13. DWORD CreateMainGameWindow() 
-DWORD CreateMainGameWindow(HANDLE Instance) {
+// 19. Added SAL - Source annotation lang
+DWORD CreateMainGameWindow(_In_ HANDLE Instance) {
     DWORD Result = ERROR_SUCCESS;
 
     // 14. copy and paste all window stuff from the winmain function and moved it to this function
@@ -103,10 +107,6 @@ DWORD CreateMainGameWindow(HANDLE Instance) {
             MB_ICONEXCLAMATION | MB_OK);
         goto Exit;
     }
-
-    // 7. Show the window, 
-    // 8. NOT NECESSARY, add WS_VISIBLE to the CreateWindowExA()
-    // ShowWindow(WindowHandle, TRUE);
 
     // 15. Exit Message 
 Exit:
