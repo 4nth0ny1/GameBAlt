@@ -6,8 +6,8 @@
 
 #include "Main.h"
 
-// good spot to start commit for blank window
-
+HANDLE gGameWindow;
+BOOL gGameIsRunning;
 
 int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
@@ -25,11 +25,20 @@ int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, in
     }
 
     MSG Message = { 0 };
+   
+    // MAIN GAME LOOP - for games that need infinite loop use gGameIsRunning
+    gGameIsRunning = TRUE;
+    while (gGameIsRunning == TRUE) {
+        // for non games use GetMessage in previous commit, 
+        // for non-blocking use PeakMessageA
+        while (PeekMessageA(&Message, gGameWindow, 0, 0, PM_REMOVE)) {
+            DispatchMessageA(&Message);
+        }
 
-    while (GetMessageA(&Message, NULL, 0, 0) > 0) {
-        TranslateMessage(&Message);
-        DispatchMessageA(&Message);
+        ProcessPlayerInput();
+        // RenderFrameGraphics();
     }
+
 
 Exit:
     return 0;
@@ -44,6 +53,8 @@ LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ 
     switch (Message)
     {
         case WM_CLOSE: {
+            gGameIsRunning = FALSE;
+
             PostQuitMessage(0);
 
             break;
@@ -60,8 +71,7 @@ DWORD CreateMainGameWindow(void) {
     DWORD Result = ERROR_SUCCESS;
 
     WNDCLASSEXA WindowClass = { 0 };
-    HWND WindowHandle = 0;
-
+ 
     WindowClass.cbSize = sizeof(WNDCLASSEXA);
     WindowClass.style = 0;
     WindowClass.lpfnWndProc = MainWindowProc;
@@ -83,7 +93,7 @@ DWORD CreateMainGameWindow(void) {
         goto Exit;
     }
 
-    WindowHandle = CreateWindowExA(
+    gGameWindow = CreateWindowExA(
         WS_EX_CLIENTEDGE,
         WindowClass.lpszClassName,
         "Window Title",
@@ -91,7 +101,7 @@ DWORD CreateMainGameWindow(void) {
         CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
         NULL, NULL, WindowClass.hInstance, NULL);
 
-    if (WindowHandle == NULL)
+    if (gGameWindow == NULL)
     {
         Result = GetLastError();
         MessageBoxA(NULL, "Window Creation Failed!", "Error!",
@@ -114,4 +124,8 @@ BOOL GameIsAlreadyRunning(void) {
     else {
         return(FALSE);
     }
+}
+
+void ProcessPlayerInput(void) {
+
 }
