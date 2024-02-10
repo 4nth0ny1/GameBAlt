@@ -6,6 +6,8 @@
 
 #include "Main.h"
 
+// good spot to start commit for blank window
+
 
 int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
