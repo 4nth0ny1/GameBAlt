@@ -2,7 +2,7 @@
 
 #define GAME_NAME						"Game_B_Alt"
 #define GAME_RES_WIDTH					384
-#define GAME_RES_HEIGHT					216
+#define GAME_RES_HEIGHT					240
 #define GAME_BPP						32
 #define GAME_DRAWING_AREA_MEMORY_SIZE	(GAME_RES_WIDTH * GAME_RES_HEIGHT * (GAME_BPP / 8))
 

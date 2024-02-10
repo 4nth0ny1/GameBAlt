@@ -9,7 +9,7 @@
 HWND gGameWindow;
 BOOL gGameIsRunning;
 
-GAMEBITMAP gDrawingSurface;
+GAMEBITMAP gBackBuffer;
 
 int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
@@ -27,15 +27,15 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         goto Exit;
     }
 
-    gDrawingSurface.BitmapInfo.bmiHeader.biSize = sizeof(gDrawingSurface.BitmapInfo.bmiHeader);
-    gDrawingSurface.BitmapInfo.bmiHeader.biWidth = GAME_RES_WIDTH;      // 384, 16:9 ratio and also divisible by 8, for many modern screens
-    gDrawingSurface.BitmapInfo.bmiHeader.biHeight = GAME_RES_HEIGHT;    // 216
-    gDrawingSurface.BitmapInfo.bmiHeader.biBitCount = GAME_BPP;         // 32, 32 is chosen because it's way easier to work with and more performant than 24
-    gDrawingSurface.BitmapInfo.bmiHeader.biCompression = BI_RGB;         
-    gDrawingSurface.BitmapInfo.bmiHeader.biPlanes = 1;    
+    gBackBuffer.BitmapInfo.bmiHeader.biSize = sizeof(gBackBuffer.BitmapInfo.bmiHeader);
+    gBackBuffer.BitmapInfo.bmiHeader.biWidth = GAME_RES_WIDTH;      // 384, 16:9 ratio and also divisible by 8, for many modern screens
+    gBackBuffer.BitmapInfo.bmiHeader.biHeight = GAME_RES_HEIGHT;    // 216
+    gBackBuffer.BitmapInfo.bmiHeader.biBitCount = GAME_BPP;         // 32, 32 is chosen because it's way easier to work with and more performant than 24
+    gBackBuffer.BitmapInfo.bmiHeader.biCompression = BI_RGB;         
+    gBackBuffer.BitmapInfo.bmiHeader.biPlanes = 1;    
     
-    gDrawingSurface.Memory = VirtualAlloc(NULL, GAME_DRAWING_AREA_MEMORY_SIZE, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-    if (gDrawingSurface.Memory == NULL) {
+    gBackBuffer.Memory = VirtualAlloc(NULL, GAME_DRAWING_AREA_MEMORY_SIZE, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+    if (gBackBuffer.Memory == NULL) {
         MessageBoxA(NULL, "Failed to Allocate Memory for Drawing Surface!", "Error!", MB_ICONEXCLAMATION | MB_OK);
         goto Exit;
     } 
@@ -101,7 +101,7 @@ DWORD CreateMainGameWindow(void) {
     WindowClass.hIcon = LoadIconA(NULL, IDI_APPLICATION);
     WindowClass.hIconSm = LoadIconA(NULL, IDI_APPLICATION);
     WindowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
-    WindowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    WindowClass.hbrBackground = CreateSolidBrush(RGB(255, 0, 255)); // Debug color. Hot Pink.
     WindowClass.lpszMenuName = NULL;
     WindowClass.lpszClassName = GAME_NAME "_WindowClass";
     WindowClass.hIconSm = LoadIconA(NULL, IDI_APPLICATION);
@@ -154,6 +154,6 @@ void ProcessPlayerInput(void) {
     }
 }
 
-void RenderFrameGraphics() {
+void RenderFrameGraphics(void) {
     
 }
