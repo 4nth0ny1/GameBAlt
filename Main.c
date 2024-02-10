@@ -129,5 +129,9 @@ BOOL GameIsAlreadyRunning(void) {
 }
 
 void ProcessPlayerInput(void) {
+    short EscapeKeyIsDown = GetAsyncKeyState(VK_ESCAPE); // returns true if pressed and false if not.
 
+    if (EscapeKeyIsDown) {
+        SendMessageA(gGameWindow, WM_CLOSE, 0, 0);
+    }
 }
