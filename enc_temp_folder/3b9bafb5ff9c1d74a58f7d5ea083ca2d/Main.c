@@ -38,7 +38,7 @@ int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, in
         ProcessPlayerInput();
         // RenderFrameGraphics();
 
-        Sleep(1); // TODO: temp solution to high cpu usage, but will be changed later
+        Sleep(1);
     }
 
 
