@@ -13,7 +13,7 @@ int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, in
     UNREFERENCED_PARAMETER(CommandLine);
     UNREFERENCED_PARAMETER(CmdShow);
 
-    if (CreateMainGameWindow(Instance) != ERROR_SUCCESS) {
+    if (CreateMainGameWindow() != ERROR_SUCCESS) {
         goto Exit;
     }
 
@@ -66,7 +66,7 @@ DWORD CreateMainGameWindow(void) {
     WindowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
     WindowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     WindowClass.lpszMenuName = NULL;
-    WindowClass.lpszClassName = "Game_B_ALT_WindowClass";
+    WindowClass.lpszClassName = GAME_NAME "_WindowClass";
     WindowClass.hIconSm = LoadIconA(NULL, IDI_APPLICATION);
 
     if (!RegisterClassExA(&WindowClass))

@@ -1,4 +1,7 @@
 #pragma once
 
+// 23. Game name update
+#define GAME_NAME "Game_B_Alt"
+
 LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ WPARAM WParam, _In_ LPARAM LParam);
 DWORD CreateMainGameWindow(void);
