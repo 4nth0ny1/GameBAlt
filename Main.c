@@ -12,7 +12,8 @@ LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ 
 
 // 12. CreateMainGameWindow()
 // 19. Added SAL - Source annotation lang
-DWORD CreateMainGameWindow(_In_ HANDLE Instance);
+// 20. removed instance parameter and added void
+DWORD CreateMainGameWindow(void);
 
 // 1. Main 
 int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
@@ -57,7 +58,8 @@ LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ 
 
 // 13. DWORD CreateMainGameWindow() 
 // 19. Added SAL - Source annotation lang
-DWORD CreateMainGameWindow(_In_ HANDLE Instance) {
+// 20. removed instance parameter and added void
+DWORD CreateMainGameWindow(void) {
     DWORD Result = ERROR_SUCCESS;
 
     // 14. copy and paste all window stuff from the winmain function and moved it to this function
@@ -91,13 +93,14 @@ DWORD CreateMainGameWindow(_In_ HANDLE Instance) {
     }
 
     // 5. Create the window
+    // 21. Replaced instance with WindowClass.hInstance which gets from GetModule ...
     WindowHandle = CreateWindowExA(
         WS_EX_CLIENTEDGE,
         WindowClass.lpszClassName,
         "Window Title",
         WS_OVERLAPPEDWINDOW | WS_VISIBLE,
         CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
-        NULL, NULL, Instance, NULL);
+        NULL, NULL, WindowClass.hInstance, NULL);
 
     if (WindowHandle == NULL)
     {
