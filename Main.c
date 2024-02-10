@@ -4,12 +4,16 @@
 #include <windows.h>
 #pragma warning(pop)
 
+#include <stdint.h>
 #include "Main.h"
 
 HWND gGameWindow;
 BOOL gGameIsRunning;
 
 GAMEBITMAP gBackBuffer;
+
+MONITORINFO gMonitorInfo = { sizeof(MONITORINFO) };
+
 
 int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
@@ -91,6 +95,8 @@ DWORD CreateMainGameWindow(void) {
     DWORD Result = ERROR_SUCCESS;
 
     WNDCLASSEXA WindowClass = { 0 };
+
+   
  
     WindowClass.cbSize = sizeof(WNDCLASSEXA);
     WindowClass.style = 0;
@@ -129,12 +135,19 @@ DWORD CreateMainGameWindow(void) {
         goto Exit;
     }
 
+    if (GetMonitorInfoA(MonitorFromWindow(gGameWindow, MONITOR_DEFAULTTOPRIMARY), &gMonitorInfo) == 0) {
+        Result = ERROR_MONITOR_NO_DESCRIPTOR;
+        goto Exit;
+    }
+
+    int MonitorWidth = gMonitorInfo.rcMonitor.right - gMonitorInfo.rcMonitor.left;
+    int MonitorHeight = gMonitorInfo.rcMonitor.bottom - gMonitorInfo.rcMonitor.top;
+
 Exit:
     return 0;
 }
 
 
-// 24. Create global mutex to stop the user from opening more than one game at a time.
 BOOL GameIsAlreadyRunning(void) {
     HANDLE Mutex = NULL;
     Mutex = CreateMutexA(NULL, FALSE, GAME_NAME "_GameMutex");

@@ -12,6 +12,13 @@ typedef struct GAMEBITMAP {
 	void* Memory;
 } GAMEBITMAP;
 
+typedef struct PIXEL32 {
+	uint8_t Blue;		// 4 8-bit values 
+	uint8_t Green;
+	uint8_t Red;
+	uint8_t Alpha;
+} PIXEL32;
+
 LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ WPARAM WParam, _In_ LPARAM LParam);
 DWORD CreateMainGameWindow(void);
 
