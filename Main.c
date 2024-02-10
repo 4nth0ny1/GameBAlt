@@ -155,5 +155,10 @@ void ProcessPlayerInput(void) {
 }
 
 void RenderFrameGraphics(void) {
+    HDC DeviceContext = GetDC(gGameWindow);
     
+    StretchDIBits(DeviceContext, 0, 0, 100, 100, 0, 0, 100, 100, gBackBuffer.Memory, &gBackBuffer.BitmapInfo, DIB_RGB_COLORS, SRCCOPY);
+    
+    
+    ReleaseDC(gGameWindow, DeviceContext);
 }
