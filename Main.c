@@ -95,8 +95,6 @@ DWORD CreateMainGameWindow(void) {
     DWORD Result = ERROR_SUCCESS;
 
     WNDCLASSEXA WindowClass = { 0 };
-
-   
  
     WindowClass.cbSize = sizeof(WNDCLASSEXA);
     WindowClass.style = 0;
