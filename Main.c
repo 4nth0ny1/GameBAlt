@@ -6,6 +6,8 @@
 
 #include "Main.h"
 
+
+
 // 1. Main 
 int WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
@@ -40,6 +42,12 @@ LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ 
 
     switch (Message)
     {
+        // 22. adding ability to shutdown program on exit.
+        case WM_CLOSE: {
+            PostQuitMessage(0);
+
+            break;
+        }
         default: {
             Result = DefWindowProcA(WindowHandle, Message, WParam, LParam);
         }
