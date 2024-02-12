@@ -191,7 +191,7 @@ void RenderFrameGraphics(void) {
     Pixel.Alpha = 0xff;
 
     for (int x = 0; x < GAME_RES_WIDTH * GAME_RES_HEIGHT; x++) {
-        memcpy((PIXEL32*)gBackBuffer.Memory + x, &Pixel, sizeof(PIXEL32));
+        memcpy_s((PIXEL32*)gBackBuffer.Memory + x, sizeof(PIXEL32), &Pixel, sizeof(PIXEL32));
     }
 
     HDC DeviceContext = GetDC(gGameWindow);
