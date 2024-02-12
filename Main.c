@@ -150,7 +150,7 @@ DWORD CreateMainGameWindow(void) {
         goto Exit;
     };
 
-    if (SetWindowPos(gGameWindow, HWND_TOPMOST, gMonitorInfo.rcMonitor.left, gMonitorInfo.rcMonitor.top, gMonitorWidth, gMonitorHeight, SWP_NOOWNERZORDER | SWP_FRAMECHANGED) == 0) {
+    if (SetWindowPos(gGameWindow, HWND_TOP, gMonitorInfo.rcMonitor.left, gMonitorInfo.rcMonitor.top, gMonitorWidth, gMonitorHeight, SWP_NOOWNERZORDER | SWP_FRAMECHANGED) == 0) {
         Result = GetLastError();
         goto Exit;
     };
@@ -180,6 +180,20 @@ void ProcessPlayerInput(void) {
 }
 
 void RenderFrameGraphics(void) {
+
+    // memset(gBackBuffer.Memory, 0xFF, (GAME_RES_WIDTH * GAME_RES_HEIGHT) * 4);
+
+    PIXEL32 Pixel = { 0 };
+
+    Pixel.Blue = 0xff;
+    Pixel.Green = 0;
+    Pixel.Red = 0;
+    Pixel.Alpha = 0xff;
+
+    for (int x = 0; x < GAME_DRAWING_AREA_MEMORY_SIZE / sizeof(Pixel) / 2; x++) {
+        memcpy((PIXEL32*)gBackBuffer.Memory + x, &Pixel, 4);
+    }
+
     HDC DeviceContext = GetDC(gGameWindow);
     
     StretchDIBits(
