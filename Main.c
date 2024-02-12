@@ -108,9 +108,10 @@ DWORD CreateMainGameWindow(void) {
     WindowClass.hbrBackground = CreateSolidBrush(RGB(255, 0, 255)); // Debug color. Hot Pink.
     WindowClass.lpszMenuName = NULL;
     WindowClass.lpszClassName = GAME_NAME "_WindowClass";
-    WindowClass.hIconSm = LoadIconA(NULL, IDI_APPLICATION);
+    
+    SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
-    if (!RegisterClassExA(&WindowClass))
+     if (!RegisterClassExA(&WindowClass))
     {
         Result = GetLastError();
         MessageBoxA(NULL, "Window Registration Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
@@ -140,6 +141,16 @@ DWORD CreateMainGameWindow(void) {
 
     int MonitorWidth = gMonitorInfo.rcMonitor.right - gMonitorInfo.rcMonitor.left;
     int MonitorHeight = gMonitorInfo.rcMonitor.bottom - gMonitorInfo.rcMonitor.top;
+
+    if (SetWindowLongPtrA(gGameWindow, GWL_STYLE, (WS_OVERLAPPEDWINDOW | WS_VISIBLE) & ~WS_OVERLAPPEDWINDOW) == 0) {
+        Result = GetLastError();
+        goto Exit;
+    };
+
+    if (SetWindowPos(gGameWindow, HWND_TOPMOST, gMonitorInfo.rcMonitor.left, gMonitorInfo.rcMonitor.top, MonitorWidth, MonitorHeight, SWP_NOOWNERZORDER | SWP_FRAMECHANGED) == 0) {
+        Result = GetLastError();
+        goto Exit;
+    };
 
 Exit:
     return 0;
