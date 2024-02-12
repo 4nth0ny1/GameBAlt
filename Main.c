@@ -122,7 +122,7 @@ DWORD CreateMainGameWindow(void) {
     }
 
     gGameWindow = CreateWindowExA(
-        WS_EX_CLIENTEDGE,
+        0,
         WindowClass.lpszClassName,
         "Window Title",
         WS_OVERLAPPEDWINDOW | WS_VISIBLE,
