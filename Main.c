@@ -14,6 +14,9 @@ GAMEBITMAP gBackBuffer;
 
 MONITORINFO gMonitorInfo = { sizeof(MONITORINFO) };
 
+int32_t gMonitorWidth;
+int32_t gMonitorHeight;
+
 
 int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
@@ -139,15 +142,15 @@ DWORD CreateMainGameWindow(void) {
         goto Exit;
     }
 
-    int MonitorWidth = gMonitorInfo.rcMonitor.right - gMonitorInfo.rcMonitor.left;
-    int MonitorHeight = gMonitorInfo.rcMonitor.bottom - gMonitorInfo.rcMonitor.top;
+    gMonitorWidth = gMonitorInfo.rcMonitor.right - gMonitorInfo.rcMonitor.left;
+    gMonitorHeight = gMonitorInfo.rcMonitor.bottom - gMonitorInfo.rcMonitor.top;
 
     if (SetWindowLongPtrA(gGameWindow, GWL_STYLE, (WS_OVERLAPPEDWINDOW | WS_VISIBLE) & ~WS_OVERLAPPEDWINDOW) == 0) {
         Result = GetLastError();
         goto Exit;
     };
 
-    if (SetWindowPos(gGameWindow, HWND_TOPMOST, gMonitorInfo.rcMonitor.left, gMonitorInfo.rcMonitor.top, MonitorWidth, MonitorHeight, SWP_NOOWNERZORDER | SWP_FRAMECHANGED) == 0) {
+    if (SetWindowPos(gGameWindow, HWND_TOPMOST, gMonitorInfo.rcMonitor.left, gMonitorInfo.rcMonitor.top, gMonitorWidth, gMonitorHeight, SWP_NOOWNERZORDER | SWP_FRAMECHANGED) == 0) {
         Result = GetLastError();
         goto Exit;
     };
@@ -179,8 +182,21 @@ void ProcessPlayerInput(void) {
 void RenderFrameGraphics(void) {
     HDC DeviceContext = GetDC(gGameWindow);
     
-    StretchDIBits(DeviceContext, 0, 0, 100, 100, 0, 0, 100, 100, gBackBuffer.Memory, &gBackBuffer.BitmapInfo, DIB_RGB_COLORS, SRCCOPY);
-    
+    StretchDIBits(
+        DeviceContext, 
+        0, 
+        0, 
+        gMonitorWidth, 
+        gMonitorHeight, 
+        0, 
+        0, 
+        GAME_RES_WIDTH, 
+        GAME_RES_HEIGHT, 
+        gBackBuffer.Memory, 
+        &gBackBuffer.BitmapInfo, 
+        DIB_RGB_COLORS, 
+        SRCCOPY
+    );
     
     ReleaseDC(gGameWindow, DeviceContext);
 }
