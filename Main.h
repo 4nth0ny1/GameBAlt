@@ -19,6 +19,15 @@ typedef struct PIXEL32 {
 	uint8_t Alpha;
 } PIXEL32;
 
+typedef struct PERF_DATA {
+	uint64_t TotalFramesRendered;
+	uint32_t RawFramesPerSecondAverage;
+	uint32_t CookedFramesPerSecondAverage;
+	MONITORINFO MonitorInfo;
+	int32_t MonitorWidth;
+	int32_t MonitorHeight;
+} PERF_DATA;
+
 LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ WPARAM WParam, _In_ LPARAM LParam);
 DWORD CreateMainGameWindow(void);
 

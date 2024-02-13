@@ -12,11 +12,7 @@ BOOL gGameIsRunning;
 
 GAMEBITMAP gBackBuffer;
 
-MONITORINFO gMonitorInfo = { sizeof(MONITORINFO) };
-
-int32_t gMonitorWidth;
-int32_t gMonitorHeight;
-
+PERF_DATA gPerformanceData;
 
 #pragma warning (disable:28251)
 int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
@@ -138,20 +134,30 @@ DWORD CreateMainGameWindow(void) {
         goto Exit;
     }
 
-    if (GetMonitorInfoA(MonitorFromWindow(gGameWindow, MONITOR_DEFAULTTOPRIMARY), &gMonitorInfo) == 0) {
+    gPerformanceData.MonitorInfo.cbSize = sizeof(MONITORINFO);
+
+    if (GetMonitorInfoA(MonitorFromWindow(gGameWindow, MONITOR_DEFAULTTOPRIMARY), &gPerformanceData.MonitorInfo) == 0) {
         Result = ERROR_MONITOR_NO_DESCRIPTOR;
         goto Exit;
     }
 
-    gMonitorWidth = gMonitorInfo.rcMonitor.right - gMonitorInfo.rcMonitor.left;
-    gMonitorHeight = gMonitorInfo.rcMonitor.bottom - gMonitorInfo.rcMonitor.top;
+    gPerformanceData.MonitorWidth = gPerformanceData.MonitorInfo.rcMonitor.right - gPerformanceData.MonitorInfo.rcMonitor.left;
+    gPerformanceData.MonitorHeight = gPerformanceData.MonitorInfo.rcMonitor.bottom - gPerformanceData.MonitorInfo.rcMonitor.top;
 
     if (SetWindowLongPtrA(gGameWindow, GWL_STYLE, (WS_OVERLAPPEDWINDOW | WS_VISIBLE) & ~WS_OVERLAPPEDWINDOW) == 0) {
         Result = GetLastError();
         goto Exit;
     };
 
-    if (SetWindowPos(gGameWindow, HWND_TOP, gMonitorInfo.rcMonitor.left, gMonitorInfo.rcMonitor.top, gMonitorWidth, gMonitorHeight, SWP_NOOWNERZORDER | SWP_FRAMECHANGED) == 0) {
+    if (SetWindowPos(
+            gGameWindow, 
+            HWND_TOP, 
+            gPerformanceData.MonitorInfo.rcMonitor.left, 
+            gPerformanceData.MonitorInfo.rcMonitor.top, 
+            gPerformanceData.MonitorWidth, 
+            gPerformanceData.MonitorHeight, 
+            SWP_NOOWNERZORDER | SWP_FRAMECHANGED
+        ) == 0) {
         Result = GetLastError();
         goto Exit;
     };
@@ -201,8 +207,8 @@ void RenderFrameGraphics(void) {
         DeviceContext, 
         0, 
         0, 
-        gMonitorWidth, 
-        gMonitorHeight, 
+        gPerformanceData.MonitorWidth, 
+        gPerformanceData.MonitorHeight,
         0, 
         0, 
         GAME_RES_WIDTH, 
