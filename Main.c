@@ -31,6 +31,8 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         goto Exit;
     }
 
+    QueryPerformanceFrequency(&gPerformanceData.PerfFrequency);
+
     gBackBuffer.BitmapInfo.bmiHeader.biSize = sizeof(gBackBuffer.BitmapInfo.bmiHeader);
     gBackBuffer.BitmapInfo.bmiHeader.biWidth = GAME_RES_WIDTH;      // 384, 16:9 ratio and also divisible by 8, for many modern screens
     gBackBuffer.BitmapInfo.bmiHeader.biHeight = GAME_RES_HEIGHT;    // 216
@@ -48,11 +50,10 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
 
     MSG Message = { 0 };
    
-    // MAIN GAME LOOP - for games that need infinite loop use gGameIsRunning
     gGameIsRunning = TRUE;
     while (gGameIsRunning == TRUE) {
-        // for non games use GetMessage in previous commit, 
-        // for non-blocking use PeakMessageA
+
+        QueryPerformanceCounter(&gPerformanceData.FrameStart);
         while (PeekMessageA(&Message, gGameWindow, 0, 0, PM_REMOVE)) {
             DispatchMessageA(&Message);
         }
@@ -60,7 +61,21 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         ProcessPlayerInput();
         RenderFrameGraphics();
 
+        QueryPerformanceCounter(&gPerformanceData.FrameEnd);
+        gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart = gPerformanceData.FrameEnd.QuadPart - gPerformanceData.FrameStart.QuadPart;
+        gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart *= 1000000;
+        gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart /= gPerformanceData.PerfFrequency.QuadPart;
+
         Sleep(1); // TODO: temp solution to high cpu usage, but will be changed later
+
+        gPerformanceData.TotalFramesRendered++;
+
+        if ((gPerformanceData.TotalFramesRendered % CALC_AVG_FPS_EVERY_X_FRAMES) == 0) {
+            char str[64] = { 0 };
+
+            _snprintf_s(str, _countof(str), _TRUNCATE, "Elapsed microseconds: %lli\n", gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart);
+            OutputDebugStringA(str);
+        }
     }
 
 
