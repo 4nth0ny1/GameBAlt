@@ -22,12 +22,9 @@ typedef struct PIXEL32 {
 
 typedef struct PERF_DATA {
 	uint64_t TotalFramesRendered;
-	uint32_t RawFramesPerSecondAverage;
-	uint32_t CookedFramesPerSecondAverage;
-	LARGE_INTEGER PerfFrequency;
-	LARGE_INTEGER FrameStart;
-	LARGE_INTEGER FrameEnd;
-	LARGE_INTEGER ElapsedMicrosecondsPerFrame;
+	uint32_t RawFPSAverage;
+	uint32_t CookedFPSAverage;
+	int64_t PerfFrequency;
 	MONITORINFO MonitorInfo;
 	int32_t MonitorWidth;
 	int32_t MonitorHeight;

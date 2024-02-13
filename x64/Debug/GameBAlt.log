@@ -1,2 +1,5 @@
 ﻿  Main.c
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(40,31): warning C4133: 'function': incompatible types - from 'int64_t *' to 'LARGE_INTEGER *'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(58,33): warning C4133: 'function': incompatible types - from 'int64_t *' to 'LARGE_INTEGER *'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(66,33): warning C4133: 'function': incompatible types - from 'int64_t *' to 'LARGE_INTEGER *'
   GameBAlt.vcxproj -> C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe

@@ -22,6 +22,12 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
     UNREFERENCED_PARAMETER(CommandLine);
     UNREFERENCED_PARAMETER(CmdShow);
 
+    MSG Message = { 0 };
+    int64_t FrameStart = 0;
+    int64_t FrameEnd = 0;
+    int64_t ElapsedMicrosecondsPerFrame = 0;
+    int64_t ElapsedMicrosecondsPerFrameAccumulator = 0;
+
     if (GameIsAlreadyRunning() == TRUE) {
         MessageBoxA(NULL, "Another Instance of this Program is Already Running!", "Error!", MB_ICONEXCLAMATION | MB_OK);
         goto Exit;
@@ -46,14 +52,10 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         goto Exit;
     } 
 
-
-
-    MSG Message = { 0 };
-   
     gGameIsRunning = TRUE;
     while (gGameIsRunning == TRUE) {
 
-        QueryPerformanceCounter(&gPerformanceData.FrameStart);
+        QueryPerformanceCounter(&FrameStart);
         while (PeekMessageA(&Message, gGameWindow, 0, 0, PM_REMOVE)) {
             DispatchMessageA(&Message);
         }
@@ -61,20 +63,27 @@ int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR Comma
         ProcessPlayerInput();
         RenderFrameGraphics();
 
-        QueryPerformanceCounter(&gPerformanceData.FrameEnd);
-        gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart = gPerformanceData.FrameEnd.QuadPart - gPerformanceData.FrameStart.QuadPart;
-        gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart *= 1000000;
-        gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart /= gPerformanceData.PerfFrequency.QuadPart;
+        QueryPerformanceCounter(&FrameEnd);
+        ElapsedMicrosecondsPerFrame = FrameEnd - FrameStart;
+        ElapsedMicrosecondsPerFrame *= 1000000;
+        ElapsedMicrosecondsPerFrame /= gPerformanceData.PerfFrequency;
 
         Sleep(1); // TODO: temp solution to high cpu usage, but will be changed later
 
         gPerformanceData.TotalFramesRendered++;
 
+        ElapsedMicrosecondsPerFrameAccumulator += ElapsedMicrosecondsPerFrame;
+
         if ((gPerformanceData.TotalFramesRendered % CALC_AVG_FPS_EVERY_X_FRAMES) == 0) {
+            
+            int64_t AverageMicrosecondsPerFrame = ElapsedMicrosecondsPerFrameAccumulator / CALC_AVG_FPS_EVERY_X_FRAMES;
+            
             char str[64] = { 0 };
 
-            _snprintf_s(str, _countof(str), _TRUNCATE, "Elapsed microseconds: %lli\n", gPerformanceData.ElapsedMicrosecondsPerFrame.QuadPart);
+            _snprintf_s(str, _countof(str), _TRUNCATE, "Avg milliseconds/frame: %.02f\n", (AverageMicrosecondsPerFrame * 0.001f));
             OutputDebugStringA(str);
+
+            ElapsedMicrosecondsPerFrameAccumulator = 0;
         }
     }
 
