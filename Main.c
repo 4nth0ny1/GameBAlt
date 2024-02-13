@@ -18,6 +18,7 @@ int32_t gMonitorWidth;
 int32_t gMonitorHeight;
 
 
+#pragma warning (disable:28251)
 int __stdcall WinMain(HINSTANCE Instance, HINSTANCE PreviousInstance, PSTR CommandLine, int CmdShow)
 {
 
