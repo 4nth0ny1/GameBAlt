@@ -1,5 +1,3 @@
 ﻿  Main.c
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(40,31): warning C4133: 'function': incompatible types - from 'int64_t *' to 'LARGE_INTEGER *'
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(58,33): warning C4133: 'function': incompatible types - from 'int64_t *' to 'LARGE_INTEGER *'
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(66,33): warning C4133: 'function': incompatible types - from 'int64_t *' to 'LARGE_INTEGER *'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(145,17): warning C4477: '_snprintf_s' : format string '%.02f' requires an argument of type 'double', but variadic argument 1 has type 'int64_t'
   GameBAlt.vcxproj -> C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe
