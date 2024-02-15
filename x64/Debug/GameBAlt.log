@@ -1,3 +1,10 @@
 ﻿  Main.c
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(103,17): warning C4477: '_snprintf_s' : format string '%.02f' requires an argument of type 'double', but variadic argument 1 has type 'int64_t'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(103,17): warning C4477: '_snprintf_s' : format string '%u' requires an argument of type 'unsigned int', but variadic argument 1 has type 'int64_t'
+  C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(103,17):
+  consider using '%llu' in the format string
+  C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(103,17):
+  consider using '%Iu' in the format string
+  C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(103,17):
+  consider using '%I64u' in the format string
+  
   GameBAlt.vcxproj -> C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe
