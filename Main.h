@@ -1,3 +1,11 @@
+// Codename: GameB
+// Will come up with a better name later.
+// 2020 Joseph Ryan Ries <ryanries09@gmail.com>
+// My YouTube series where we program an entire video game from scratch in C.
+// Watch it on YouTube:    https://www.youtube.com/watch?v=3zFFrBSdBvA
+// Follow along on GitHub: https://github.com/ryanries/GameB
+// Find me on Twitter @JosephRyanRies 
+
 #pragma once
 
 #define GAME_NAME	"Game_B"
@@ -10,9 +18,9 @@
 
 #define GAME_DRAWING_AREA_MEMORY_SIZE	(GAME_RES_WIDTH * GAME_RES_HEIGHT * (GAME_BPP / 8))
 
-#define CALCULATE_AVG_FPS_EVERY_X_FRAMES	100
+#define CALCULATE_AVG_FPS_EVERY_X_FRAMES	120
 
-#define TARGET_MICROSECONDS_PER_FRAME 16667
+#define TARGET_MICROSECONDS_PER_FRAME		16667ULL
 
 #define SIMD
 
@@ -23,7 +31,9 @@
 #pragma warning(disable: 4710)	// Disable warning about function not inlined
 
 typedef LONG(NTAPI* _NtQueryTimerResolution) (OUT PULONG MinimumResolution, OUT PULONG MaximumResolution, OUT PULONG CurrentResolution);
+
 _NtQueryTimerResolution NtQueryTimerResolution;
+
 
 typedef struct GAMEBITMAP
 {
@@ -62,18 +72,39 @@ typedef struct GAMEPERFDATA
 	int32_t MonitorHeight;
 
 	BOOL DisplayDebugInfo;
-	LONG MinimumTimerResolution;
-	LONG MaximumTimerResolution;
-	LONG CurrentTimerResolution;
+
+	ULONG MinimumTimerResolution;
+
+	ULONG MaximumTimerResolution;
+
+	ULONG CurrentTimerResolution;
+
+	DWORD HandleCount;
+
+	PROCESS_MEMORY_COUNTERS_EX MemInfo;
+
+	SYSTEM_INFO SystemInfo;
+
+	int64_t CurrentSystemTime;
+
+	int64_t PreviousSystemTime;
+
+	double CPUPercent;
 
 } GAMEPERFDATA;
 
-typedef struct PLAYER {
+typedef struct PLAYER
+{
 	char Name[12];
-	int32_t WorldPosX;
-	int32_t WorldPosY;
+
+	int32_t ScreenPosX;
+
+	int32_t ScreenPosY;
+
 	int32_t HP;
+
 	int32_t Strength;
+
 	int32_t MP;
 } PLAYER;
 
@@ -87,7 +118,6 @@ BOOL GameIsAlreadyRunning(void);
 void ProcessPlayerInput(void);
 
 void RenderFrameGraphics(void);
-
 #ifdef SIMD
 void ClearScreen(_In_ __m128i* Color);
 #else
