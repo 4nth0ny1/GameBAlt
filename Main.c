@@ -129,7 +129,7 @@ int __stdcall WinMain(_In_ HINSTANCE Instance, _In_opt_ HINSTANCE PreviousInstan
 
         ElapsedMicrosecondsPerFrameAccumulatorRaw += ElapsedMicroseconds;
 
-        while (ElapsedMicroseconds <= TARGET_MICROSECONDS_PER_FRAME)
+        while (ElapsedMicroseconds < TARGET_MICROSECONDS_PER_FRAME)
         {
             
 
@@ -141,7 +141,7 @@ int __stdcall WinMain(_In_ HINSTANCE Instance, _In_opt_ HINSTANCE PreviousInstan
 
             QueryPerformanceCounter((LARGE_INTEGER*)&FrameEnd);
 
-            if (ElapsedMicroseconds <= ((int64_t)TARGET_MICROSECONDS_PER_FRAME - gPerformanceData.CurrentTimerResolution * 0.01f)) {
+            if (ElapsedMicroseconds < ((int64_t)TARGET_MICROSECONDS_PER_FRAME - gPerformanceData.CurrentTimerResolution * 0.01f)) {
                 Sleep(0); // Could be anywhere from 1ms to a full system timer tick? (~15.625ms)
             }
         }
