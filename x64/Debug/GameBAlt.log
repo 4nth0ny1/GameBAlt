@@ -1,7 +1,9 @@
 ﻿  Main.c
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(223,90): warning C4244: '=': conversion from 'int64_t' to 'double', possible loss of data
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(880,54): warning C4133: 'function': incompatible types - from 'PIXEL32 *' to '__m128i *'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(233,90): warning C4244: '=': conversion from 'int64_t' to 'double', possible loss of data
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(805,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(1560,54): warning C4133: 'function': incompatible types - from 'PIXEL32 *' to '__m128i *'
   GameBAlt.vcxproj -> C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe
+  C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\6x7font.bmpx
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Chara-Main.png
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Hero_Suit0_Down_Standing.bmpx
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Hero_Suit0_Down_Walk1.bmpx
@@ -15,4 +17,4 @@ C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(880,54): warning C4133: 'fun
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Hero_Suit0_Up_Standing.bmpx
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Hero_Suit0_Up_Walk1.bmpx
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Hero_Suit0_Up_Walk2.bmpx
-  13 File(s) copied
+  14 File(s) copied
