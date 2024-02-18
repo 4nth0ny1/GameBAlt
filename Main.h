@@ -59,7 +59,7 @@
 
 #define DIRECTION_LEFT	3
 
-#define DIRECTION_RIGHT	7
+#define DIRECTION_RIGHT	6
 
 #define DIRECTION_UP	9
 
