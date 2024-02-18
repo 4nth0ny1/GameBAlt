@@ -1,4 +1,4 @@
 ﻿  Main.c
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(199,90): warning C4244: '=': conversion from 'int64_t' to 'double', possible loss of data
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(537,54): warning C4133: 'function': incompatible types - from 'PIXEL32 *' to '__m128i *'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(223,90): warning C4244: '=': conversion from 'int64_t' to 'double', possible loss of data
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(695,54): warning C4133: 'function': incompatible types - from 'PIXEL32 *' to '__m128i *'
   GameBAlt.vcxproj -> C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe
