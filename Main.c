@@ -614,20 +614,22 @@ void RenderFrameGraphics(void)
     ClearScreen(&Pixel);
 #endif
 
-    int32_t ScreenX = gPlayer.ScreenPosX;
+    //int32_t ScreenX = gPlayer.ScreenPosX;
 
-    int32_t ScreenY = gPlayer.ScreenPosY;
+    //int32_t ScreenY = gPlayer.ScreenPosY;
 
-    int32_t StartingScreenPixel = ((GAME_RES_WIDTH * GAME_RES_HEIGHT) - GAME_RES_WIDTH) - \
-        (GAME_RES_WIDTH * ScreenY) + ScreenX;
+    //int32_t StartingScreenPixel = ((GAME_RES_WIDTH * GAME_RES_HEIGHT) - GAME_RES_WIDTH) - \
+    //    (GAME_RES_WIDTH * ScreenY) + ScreenX;
 
-    for (int32_t y = 0; y < 16; y++)
-    {
-        for (int32_t x = 0; x < 16; x++)
-        {
-            memset((PIXEL32*)gBackBuffer.Memory + (uintptr_t)StartingScreenPixel + x - ((uintptr_t)GAME_RES_WIDTH * y), 0xFF, sizeof(PIXEL32));
-        }
-    }
+    //for (int32_t y = 0; y < 16; y++)
+    //{
+    //    for (int32_t x = 0; x < 16; x++)
+    //    {
+    //        memset((PIXEL32*)gBackBuffer.Memory + (uintptr_t)StartingScreenPixel + x - ((uintptr_t)GAME_RES_WIDTH * y), 0xFF, sizeof(PIXEL32));
+    //    }
+    //}
+
+    Blit32BppBitmapToBuffer(&gPlayer.Sprite[SUIT_0][FACING_DOWN_0], gPlayer.ScreenPosX, gPlayer.ScreenPosY);
 
     HDC DeviceContext = GetDC(gGameWindow);
 
@@ -704,3 +706,39 @@ __forceinline void ClearScreen(_In_ PIXEL32* Pixel)
     }
 }
 #endif
+
+void Blit32BppBitmapToBuffer(_In_ GAMEBITMAP* GameBitmap, _In_ uint16_t x, _In_ uint16_t y) {
+    
+    int32_t StartingScreenPixel = ((GAME_RES_WIDTH * GAME_RES_HEIGHT) - GAME_RES_WIDTH) - (GAME_RES_WIDTH * y) + x;
+
+    int32_t StartingBitmapPixel = ((GameBitmap->BitmapInfo.bmiHeader.biWidth * GameBitmap->BitmapInfo.bmiHeader.biHeight) - \
+        GameBitmap->BitmapInfo.bmiHeader.biWidth);
+
+    int32_t MemoryOffset = 0;
+
+    int32_t BitmapOffset = 0;
+
+    PIXEL32 BitmapPixel = { 0 };
+
+    PIXEL32 BackgroundPixel = { 0 };
+
+    for (int16_t YPixel = 0; YPixel < GameBitmap->BitmapInfo.bmiHeader.biHeight; YPixel++)
+    {
+        for (int16_t XPixel = 0; XPixel < GameBitmap->BitmapInfo.bmiHeader.biWidth; XPixel++)
+        {
+            MemoryOffset = StartingScreenPixel + XPixel - (GAME_RES_WIDTH * YPixel);
+
+            BitmapOffset = StartingBitmapPixel + XPixel - (GameBitmap->BitmapInfo.bmiHeader.biWidth * YPixel);
+
+            memcpy_s(&BitmapPixel, sizeof(PIXEL32), (PIXEL32*)GameBitmap->Memory + BitmapOffset, sizeof(PIXEL32));
+
+            if (BitmapPixel.Alpha == 255)
+            {
+                memcpy_s((PIXEL32*)gBackBuffer.Memory + MemoryOffset, sizeof(PIXEL32), &BitmapPixel, sizeof(PIXEL32));
+            }
+
+        }
+    }
+
+
+};
