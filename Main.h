@@ -8,7 +8,19 @@
 
 #pragma once
 
+#ifdef _DEBUG
+
+#define ASSERT(Expression, Message) if (!(Expression)) { *(int*)0 = 0; }
+
+#else
+
+#define ASSERT(Expression, Message) ((void)0);
+
+#endif
+
 #define GAME_NAME	"Game_B"
+
+#define GAME_VER	"0.9a"
 
 #define GAME_RES_WIDTH	384
 
@@ -21,8 +33,6 @@
 #define CALCULATE_AVG_FPS_EVERY_X_FRAMES	120
 
 #define TARGET_MICROSECONDS_PER_FRAME		16667ULL
-
-#define SIMD
 
 #define SUIT_0	0
 
@@ -55,28 +65,35 @@
 #define FACING_UPWARD_2	11
 
 
-#define DIRECTION_DOWN	0
+typedef enum DIRECTION
+{
+	DOWN = 0,
 
-#define DIRECTION_LEFT	3
+	LEFT = 3,
 
-#define DIRECTION_RIGHT	6
+	RIGHT = 6,
 
-#define DIRECTION_UP	9
+	UP = 9
 
-#define FONT_SHEET_CHARACTERS_PER_ROW 98
+} DIRECTION;
 
+typedef enum LOGLEVEL
+{
+	LL_NONE = 0,
 
-#define LOG_LEVEL_NONE  0
+	LL_ERROR = 1,
 
-#define LOG_LEVEL_INFO  1
+	LL_WARNING = 2,
 
-#define LOG_LEVEL_WARN  2
+	LL_INFO = 3,
 
-#define LOG_LEVEL_ERROR 3
+	LL_DEBUG = 4
 
-#define LOG_LEVEL_DEBUG 4
+} LOGLEVEL;
 
 #define LOG_FILE_NAME GAME_NAME ".log"
+
+#define FONT_SHEET_CHARACTERS_PER_ROW 98
 
 
 
@@ -161,7 +178,7 @@ typedef struct HERO
 
 	uint8_t MovementRemaining;
 
-	uint8_t Direction;
+	DIRECTION Direction;
 
 	uint8_t CurrentArmor;
 
@@ -179,6 +196,11 @@ typedef struct REGISTRYPARAMS
 	DWORD LogLevel;
 
 } REGISTRYPARAMS;
+
+
+
+
+
 
 LRESULT CALLBACK MainWindowProc(_In_ HWND WindowHandle, _In_ UINT Message, _In_ WPARAM WParam, _In_ LPARAM LParam);
 
@@ -200,7 +222,11 @@ void RenderFrameGraphics(void);
 
 DWORD LoadRegistryParameters(void);
 
-void LogMessageA(_In_ DWORD LogLevel, _In_ char* Message, _In_ ...);
+void LogMessageA(_In_ LOGLEVEL LogLevel, _In_ char* Message, _In_ ...);
+
+void DrawDebugInfo(void);
+
+void FindFirstConnectedGamepad(void);
 
 #ifdef SIMD
 void ClearScreen(_In_ __m128i* Color);
