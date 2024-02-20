@@ -1,7 +1,7 @@
 ﻿  Main.c
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(233,90): warning C4244: '=': conversion from 'int64_t' to 'double', possible loss of data
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(805,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(1560,54): warning C4133: 'function': incompatible types - from 'PIXEL32 *' to '__m128i *'
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(238,90): warning C4244: '=': conversion from 'int64_t' to 'double', possible loss of data
+C:\Users\Anthony\Documents\code\c++\GameBAlt\Main.c(1548,54): warning C4133: 'function': incompatible types - from 'PIXEL32 *' to '__m128i *'
+  LINK : C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe not found or not built by the last incremental link; performing full link
   GameBAlt.vcxproj -> C:\Users\Anthony\Documents\code\c++\GameBAlt\x64\Debug\GameBAlt.exe
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\6x7font.bmpx
   C:\Users\Anthony\Documents\code\c++\GameBAlt\Assets\Chara-Main.png
